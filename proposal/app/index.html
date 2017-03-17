@@ -1,0 +1,270 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>DSC 530 Project Proposal</title>
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+</head>
+
+<body>
+    <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div class="container">
+
+        <div class="header">
+              <ul class="nav navbar-nav navbar-right">
+                  <li>
+                      <a href="http://www.umassd.edu/" target="_blank">
+                          <img class="umassd_logo" src="http://www.cis.umassd.edu/~dkoop/common/umassd_logo.svg" alt="UMass Dartmouth">
+                      </a>
+                  </li>
+              </ul>
+              <h4 class="text-muted">Data Visualization (DSC 530/CIS 602-02)</h4>
+        </div>
+
+        <div class="jumbotron">
+            <h2 class="display-4">Project Proposal</h2>
+            <p class="navbar-text navbar-right"><a href="https://github.com/se2" class="navbar-link" target="_blank">Duc Tu Luong</a> - 01649122</p>
+        </div>
+
+        <div class="body">
+            <section class="section">
+                <h2 class="section-header">Datasets</h2>
+                <div class="section-body">
+                    <p>
+                        In this project, I will analyze about Uber trips data in New York city compared to other FHV (for-hire vehicles) companies.
+                        The data contains over 4.5 million Uber pickups in New York City from April to September 2014, and 14.3 million more Uber pickups from January to June 2015.
+                        Data also contains 10 other for-hire vehicle (FHV) companies including Lyft company.
+                    </p>
+                    <p>
+                        <strong>Datasets URLs</strong>
+                        <ul>
+                            <li>
+                                <a href="https://github.com/fivethirtyeight/uber-tlc-foil-response" target="_blank">
+                                    Uber TLC FOIL Response
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://www.nyc.gov/html/tlc/html/home/home.shtml" target="_blank">
+                                    NYC Taxi & Limousine Commission (TLC)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/toddwschneider/nyc-taxi-data" target="_blank">
+                                    Unified New York City Taxi and Uber data
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://data.beta.nyc//dataset/3bf5fb73-edb5-4b05-bb29-7c95f4a727fc/resource/6df127b1-6d04-4bb7-b983-07402a2c3f90/download/f4129d9aa6dd4281bc98d0f701629b76nyczipcodetabulationareas.geo.json" target="_blank">
+                                    New York map data
+                                </a>
+                            </li>
+                        </ul>
+                    </p>
+                    <p>
+                        <strong>Datasets types and semantics</strong>
+                        <p>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Header</th>
+                                        <th>Definition</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>Date/Time</code></td>
+                                        <td>The date and time of the Uber pickup</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Lat</code></td>
+                                        <td>The latitude of the Uber pickup</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Lon</code></td>
+                                        <td>The longitude of the Uber pickup</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Base</code></td>
+                                        <td>The <a href="http://www.nyc.gov/html/tlc/html/industry/base_and_business.shtml">TLC base company</a> code affiliated with the Uber pickup</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </p>
+                    </p>
+                    <p>
+                        Data contains <code>Date/Time</code>, <code>Latitude</code>, <code>Longitude</code>, and <code>Base</code> code for FHV based on <a href="http://www.nyc.gov/html/tlc/html/industry/base_and_business.shtml" target="_blank">TLC base company</a>
+                        of each pickup by Uber and other 10 FHV companies in New York City from April to September 2014, and from January to June 2015. The datasets are obtained from
+                        NYC TLC Company by submitting a Freedom of Information Law request on July 20, 2015 from <a href="https://github.com/fivethirtyeight" target="_blank">FiveThirtyEight</a>.
+                        <br> <br>
+                        Due to passenger privacy concern recently, the latest data was 2 years ago, in 2015.
+                        Moreover, because the size of data is tremendous, I will try to visualize data as much as possible,
+                        to find out the success of Uber when it takes millions of rides from traditional taxis in New York, the place taxis are everywhere.
+                    </p>
+                    <p>
+                        The Uber <code>Base</code> codes by <a href="http://www.nyc.gov/html/tlc/html/industry/base_and_business.shtml" target="_blank">TLC base company</a>:
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Base Code</th>
+                                    <th>Base Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>B02512</td>
+                                    <td>Unter</td>
+                                </tr>
+                                <tr>
+                                    <td>B02598</td>
+                                    <td>Hinter</td>
+                                </tr>
+                                <tr>
+                                    <td>B02617</td>
+                                    <td>Weiter</td>
+                                </tr>
+                                <tr>
+                                    <td>B02682</td>
+                                    <td>Schmecken</td>
+                                </tr>
+                                <tr>
+                                    <td>B02764</td>
+                                    <td>Danach-NY</td>
+                                </tr>
+                                <tr>
+                                    <td>B02765</td>
+                                    <td>Grun</td>
+                                </tr>
+                                <tr>
+                                    <td>B02835</td>
+                                    <td>Dreist</td>
+                                </tr>
+                                <tr>
+                                    <td>B02836</td>
+                                    <td>Drinnen</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                </div>
+            </section>
+            <section class="section">
+                <h2 class="section-header">Tasks</h2>
+                <div class="section-body">
+                    <p>
+                        <strong>Uber trending</strong>
+                        <ul>
+                            <li>How many rides Uber have more each month/year?</li>
+                            <li>How many rides traditional taxis have less each month/year?</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <strong>Density</strong>
+                        <ul>
+                            <li>Which location has the highest/lowest density of Uber rides?</li>
+                            <li>Which day in week has the highest/lowest density of Uber rides?</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <strong>Difference</strong>
+                        <ul>
+                            <li>Difference between taxis and Uber?</li>
+                            <li>Difference between weekdays and weekends ride density?</li>
+                            <li>Difference between each time in day? For example, rush hour vs. normal/working hour.</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <strong>Other ideas</strong>
+                        <ul>
+                            <li>Any change in Uber policy/pricing affects number of rides?</li>
+                            <li>Other factors such as weather, events, holidays affect Uber rides?</li>
+                        </ul>
+                    </p>
+                </div>
+            </section>
+            <section class="section">
+                <h2 class="section-header">Sketch</h2>
+                <div class="section-body">
+                    <p>
+                        <strong>Uber pickup locations density plot</strong>
+                        <img src="images/design1.png" alt="" class="img">
+                    </p>
+                </div>
+            </section>
+            <section class="section">
+                <h2 class="section-header">Ideas & Requirements</h2>
+                <div class="section-body">
+                    <p>
+                    </p>
+                </div>
+            </section>
+            <section class="section">
+                <h2 class="section-header">References</h2>
+                <div class="section-body">
+                    <p>
+                        <ul>
+                            <li>
+                                <a target="_blank" href="//nodejs.org">Nodejs</a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="http://gulpjs.com/">Gulp</a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="http://sass-lang.com/">Sass</a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="//yeoman.io">Yeoman</a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="//getbootstrap.com">Bootstrap</a>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <div class="footer">
+
+        </div>
+
+    </div>
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/tether/dist/js/tether.js"></script>
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js scripts/plugins.js -->
+    <script src="/bower_components/bootstrap/js/dist/util.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/alert.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/button.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/carousel.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/collapse.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/dropdown.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/modal.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/scrollspy.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/tab.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/tooltip.js"></script>
+    <script src="/bower_components/bootstrap/js/dist/popover.js"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
+</body>
+
+</html>

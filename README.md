@@ -49,3 +49,23 @@ You have until **11:59pm on May 9** to submit your final report and code. Thus, 
 - Describe the questions your visualization is designed to answer.
 - Describe the visualization you created and how its design evolved. What marks and channels are used? What techniques do you build on?
 - Describe how the visualization can be used to answer the questions.
+
+## Getting Started
+- Install [Nodejs](nodejs.org/download/)
+- Install `npm install -g yo`
+- Install `npm install --global yo gulp-cli bower generator-webapp`
+- Run `yo webapp` to scaffold your webapp
+- Run `gulp serve` to preview and watch for changes
+- Run `bower install --save <package>` to install frontend dependencies
+- Run `gulp serve:test` to run the tests in the browser
+- Run `gulp` to build your webapp for production
+- Run `gulp serve:dist` to preview the production build
+
+## Credit
+- [Nodejs](nodejs.org/download/)
+- [Yeoman](yeoman.io)
+- [Yeoman Webapp Generator](https://github.com/yeoman/generator-webapp)
+- [Gulp](http://gulpjs.com/)
+- [Bower](https://bower.io)
+- [Bootstrap](getbootstrap.com)
+- [D3](d3js.org)
