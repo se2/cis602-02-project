@@ -2,13 +2,6 @@
 @import "bower_components/bootstrap/scss/bootstrap.scss";
 // endbower
 
-.browserupgrade {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
 body {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -37,18 +30,12 @@ body {
     border-top: .05rem solid #e5e5e5;
 }
 
-.container-narrow > hr {
-    margin: 2rem 0;
+.form-control {
+  width: auto;
 }
 
-.jumbotron {
-    text-align: center;
-    padding: 50px;
-}
-
-.jumbotron .btn {
-    padding: .75rem 1.5rem;
-    font-size: 1.5rem;
+.page-header {
+  text-align: center;
 }
 
 .umassd_logo {
@@ -94,8 +81,5 @@ body {
     }
     .header {
         margin-bottom: 2rem;
-    }
-    .jumbotron {
-        border-bottom: 0;
     }
 }

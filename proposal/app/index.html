@@ -35,7 +35,7 @@
               <h4 class="text-muted">Data Visualization (DSC 530/CIS 602-02)</h4>
         </div>
 
-        <div class="jumbotron">
+        <div class="page-header">
             <h2 class="display-4">Project Proposal</h2>
             <p class="navbar-text navbar-right"><a href="https://github.com/se2" class="navbar-link" target="_blank">Duc Tu Luong</a> - 01649122</p>
         </div>
@@ -199,8 +199,44 @@
                 <h2 class="section-header">Sketch</h2>
                 <div class="section-body">
                     <p>
-                        <strong>Uber pickup locations density plot</strong>
-                        <img src="images/design1.png" alt="" class="img">
+                        <p>
+                            <h5>Uber pickup locations density plot</h5>
+                        </p>
+                        <p><img src="images/design1.png" alt="" class="img"></p>
+                        <p>
+                            Since the data is tremendous, we may want to break it down into many periods of time,
+                            for example, <i>Apr 2014</i>, <i>May 2014</i>,... <i>Sep 2014</i>. We can animate the map a little
+                            bit by using:
+                            <p>
+                                <select class="form-control" name="period" id="">
+                                    <option value="apr14">Apr 2014</option>
+                                    <option value="may14">May 2014</option>
+                                    <option value="jun14">Jun 2014</option>
+                                    <option value="jul14">Jul 2014</option>
+                                    <option value="aug14">Aug 2014</option>
+                                    <option value="sep14">Sep 2014</option>
+                                </select>
+                            </p>
+                            <p>or change the content of data by switching between Uber and other FHV companies data:</p>
+                            <p>
+                                <select class="form-control" name="fhv" id="">
+                                    <option value="uber">Uber</option>
+                                    <option value="lyft">Lyft</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </p>
+                        </p>
+                    </p>
+                    <p><hr></p>
+                    <p>
+                        <h5>Multiple bar chart of Uber vs. Other rides</h5>
+                        <p>
+                            <img class="img" src="images/design2.jpg" alt="">
+                        </p>
+                        <p>
+                            Bar chart is an efficient way to compare numeric, in this case, is the number of rides between Uber
+                            and other FHV companies.
+                        </p>
                     </p>
                 </div>
             </section>
@@ -208,6 +244,27 @@
                 <h2 class="section-header">Ideas & Requirements</h2>
                 <div class="section-body">
                     <p>
+                        <h5>Large amount of data</h5>
+                        <code>d3.js</code> is great to manipulate data, but performance becomes a problem when we encounter a large volume of data.
+                        Since the nature of this datasets is that the tremendous amount of data of Uber and other FHV companies
+                        over the time, it should take a while to process and prepare data before visualizing. There are 2 options
+                        to enhance the <strong>d3</strong> performance for large datasets:
+                        <p>
+                            <ol>
+                                <li>
+                                    Pre-process datasets, upload to a server with multiple views from different angle, for example,
+                                    <code>uber-raw-data-sep14.csv</code> file can be broken down into many files, such as
+                                    <code>uber-sep14-weekends.csv</code>, <code>uber-sep14-weekdays.csv</code>,
+                                    <code>uber-sep14-rushhour.csv</code>, etc., by this way, we can process small part od large data each time.
+                                </li>
+                                <li>
+                                    Pre-render <strong>d3</strong> in a server and return the visualization to client. We can use
+                                    <a href="https://github.com/fivethirtyeight/d3-pre" target="_blank">D3 Pre</a> or refer to
+                                    <a href="https://mango-is.com/blog/engineering/pre-render-d3-js-charts-at-server-side/" target="_blank">this article</a>
+                                    to reduce the data processing time.
+                                </li>
+                            </ol>
+                        </p>
                     </p>
                 </div>
             </section>
