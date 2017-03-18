@@ -19,9 +19,6 @@
 </head>
 
 <body>
-    <!--[if IE]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
     <div class="container">
 
         <div class="header">
@@ -176,6 +173,7 @@
                         <ul>
                             <li>Which location has the highest/lowest density of Uber rides?</li>
                             <li>Which day in week has the highest/lowest density of Uber rides?</li>
+                            <li>How many trips per day?</li>
                         </ul>
                     </p>
                     <p>
@@ -184,6 +182,7 @@
                             <li>Difference between taxis and Uber?</li>
                             <li>Difference between weekdays and weekends ride density?</li>
                             <li>Difference between each time in day? For example, rush hour vs. normal/working hour.</li>
+                            <li>Changes in trips during Sep 2013 - Sep 2014 between Uber/Lyft and Yellow taxis?</li>
                         </ul>
                     </p>
                     <p>
@@ -191,6 +190,7 @@
                         <ul>
                             <li>Any change in Uber policy/pricing affects number of rides?</li>
                             <li>Other factors such as weather, events, holidays affect Uber rides?</li>
+                            <li>Change in daily trips by hour in Manhattan?</li>
                         </ul>
                     </p>
                 </div>
@@ -235,7 +235,7 @@
                         </p>
                         <p>
                             Bar chart is an efficient way to compare numeric, in this case, is the number of rides between Uber
-                            and other FHV companies.
+                            and other FHV companies. We try to focus on how many rides Uber have increased throughout the times.
                         </p>
                     </p>
                 </div>
@@ -245,25 +245,46 @@
                 <div class="section-body">
                     <p>
                         <h5>Large amount of data</h5>
-                        <code>d3.js</code> is great to manipulate data, but performance becomes a problem when we encounter a large volume of data.
-                        Since the nature of this datasets is that the tremendous amount of data of Uber and other FHV companies
-                        over the time, it should take a while to process and prepare data before visualizing. There are 2 options
-                        to enhance the <strong>d3</strong> performance for large datasets:
                         <p>
-                            <ol>
+                            <code>d3.js</code> is great to manipulate data, but performance becomes a problem when we encounter a large volume of data.
+                            Since the nature of this datasets is that the tremendous amount of data of Uber and other FHV companies
+                            over the time, it should take a while to process and prepare data before visualizing. There are 2 options
+                            to enhance the <strong>d3</strong> performance for large datasets:
+                            <p>
+                                <ol>
+                                    <li>
+                                        Pre-process datasets, upload to a server with multiple views from different angle, for example,
+                                        <code>uber-raw-data-sep14.csv</code> file can be broken down into many files, such as
+                                        <code>uber-sep14-weekends.csv</code>, <code>uber-sep14-weekdays.csv</code>,
+                                        <code>uber-sep14-rushhour.csv</code>, etc., by this way, we can process small part od large data each time.
+                                    </li>
+                                    <li>
+                                        Pre-render <strong>d3</strong> in a server and return the visualization to client. We can use
+                                        <a href="https://github.com/fivethirtyeight/d3-pre" target="_blank">D3 Pre</a> or refer to
+                                        <a href="https://mango-is.com/blog/engineering/pre-render-d3-js-charts-at-server-side/" target="_blank">this article</a>
+                                        to reduce the data processing time.
+                                    </li>
+                                </ol>
+                            </p>
+                        </p>
+                    </p>
+                    <p>
+                        <h5>Design</h5>
+                        <p>
+                            We try to use the best visualization to describe the data of Uber business in NYC, especially in downtown
+                            Manhattan, the busiest place in NYC. Each visualization is best for each purpose:
+                            <ul>
                                 <li>
-                                    Pre-process datasets, upload to a server with multiple views from different angle, for example,
-                                    <code>uber-raw-data-sep14.csv</code> file can be broken down into many files, such as
-                                    <code>uber-sep14-weekends.csv</code>, <code>uber-sep14-weekdays.csv</code>,
-                                    <code>uber-sep14-rushhour.csv</code>, etc., by this way, we can process small part od large data each time.
+                                    Map is great to visualize which area is the most crowded of taxi pickups and plotting
+                                    density.
                                 </li>
                                 <li>
-                                    Pre-render <strong>d3</strong> in a server and return the visualization to client. We can use
-                                    <a href="https://github.com/fivethirtyeight/d3-pre" target="_blank">D3 Pre</a> or refer to
-                                    <a href="https://mango-is.com/blog/engineering/pre-render-d3-js-charts-at-server-side/" target="_blank">this article</a>
-                                    to reduce the data processing time.
+                                    Bar chart/multiple bar chart/stacked bar chart can be used for data comparison.
                                 </li>
-                            </ol>
+                                <li>
+                                    Pie chart is great in terms of percentage comparison.
+                                </li>
+                            </ul>
                         </p>
                     </p>
                 </div>
