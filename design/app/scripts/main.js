@@ -94,8 +94,8 @@ var drawMap = function(mapData, data, htmlID, color, lon, lat) {
 		.attr('r', '0.5px')
 		// .attr('cx', function (d) { return projection([d.Lon, d.Lat])[0]; })
 		// .attr('cy', function (d) { return projection([d.Lon, d.Lat])[1]; })
-		.attr("transform", function(d) {
-		            return "translate(" + projection([d[lon], d[lat]]) + ")"; })
+		.attr('transform', function(d) {
+		            return 'translate(' + projection([d[lon], d[lat]]) + ')'; })
 		            // return "translate(" + projection([d.Lon, d.Lat]) + ")"; })
 		.attr('fill', color);
 }
@@ -105,20 +105,20 @@ var dataViz = function(errors, mapData, fhvBases, zones, uberSep14, lyft14) {
     if (errors) throw errors;
 
     // lyft14 = _.orderBy(lyft14, ["time_of_trip"], ["asc"]);
-    lyft14 = _.orderBy(_.filter(lyft14, function(d) { return (moment(new Date(d.time_of_trip)).month() === 8 && moment(new Date(d.time_of_trip)).date() === 1); }), ["time_of_trip"], ["asc"]);
-    uberSep14 = _.orderBy(_.filter(uberSep14, function(d) { return (moment(new Date(d["Date/Time"])).date() === 1); }), ["Date/Time"], ["asc"]);
+    lyft14 = _.orderBy(_.filter(lyft14, function(d) { return (moment(new Date(d.time_of_trip)).month() === 8 && moment(new Date(d.time_of_trip)).date() === 1); }), ['time_of_trip'], ['asc']);
+    uberSep14 = _.orderBy(_.filter(uberSep14, function(d) { return (moment(new Date(d['Date/Time'])).date() === 1); }), ['Date/Time'], ['asc']);
 
     // console.log(lyft14);
     // console.log(uberSep14);
 
-    drawMap(mapData, lyft14, '#nyc-lyft', "red", "start_lng", "start_lat");
-    drawMap(mapData, uberSep14, '#nyc-uber', "red", "Lon", "Lat");
+    drawMap(mapData, lyft14, '#nyc-lyft', 'red', 'start_lng', 'start_lat');
+    drawMap(mapData, uberSep14, '#nyc-uber', 'red', 'Lon', 'Lat');
 
     // console.log(moment(lyft14[0]["time_of_trip"]).month() === 8);
 }
 
 d3.queue()
-	.defer(d3.json, 'http://data.beta.nyc//dataset/3bf5fb73-edb5-4b05-bb29-7c95f4a727fc/resource/6df127b1-6d04-4bb7-b983-07402a2c3f90/download/f4129d9aa6dd4281bc98d0f701629b76nyczipcodetabulationareas.geo.json')
+	.defer(d3.json, 'https://raw.githubusercontent.com/se2/cis602-02-project/master/data/nyc.geo.json')
 	// .defer(d3.json, "https://cdn.rawgit.com/johan/world.geo.json/master/countries.geo.json")
     // .defer(d3.json, "https://gist.githubusercontent.com/mbostock/8423351/raw/fb182232861027a6adecf8b2182ee7b3ef41c751/ny.json")
     .defer(d3.csv, 'https://raw.githubusercontent.com/toddwschneider/nyc-taxi-data/master/data/fhv_bases.csv')
