@@ -43,8 +43,9 @@
                 <div class="section-body">
                     <p>
                         In this project, I will analyze about Uber trips data in New York city compared to other FHV (for-hire vehicles) companies.
-                        The data contains over 4.5 million Uber pickups in New York City from April to September 2014, and 14.3 million more Uber pickups from January to June 2015.
-                        Data also contains 10 other for-hire vehicle (FHV) companies including Lyft company.
+                        The data contains over 4.5 million Uber pickups in New York City from April to September 2014, and 14.3 million more Uber
+                        pickups from January to June 2015, Uber data from January to June 2016. Data also contains 10 other for-hire vehicle (FHV)
+                        companies including Lyft company.
                     </p>
                     <p>
                         <strong>Datasets URLs</strong>
@@ -199,9 +200,12 @@
                 <div class="section-body">
                     <p>
                         <p>
-                            <h5>Uber pickup locations density plot</h5>
+                            <h5>Map</h5>
                         </p>
-                        <p><img src="images/design1.png" alt="" class="img"></p>
+                        <p>
+                            <h6>NYC Uber pickup locations daily average - Sep 14</h6>
+                            <img src="images/nyc.png" alt="" class="img">
+                        </p>
                         <p>
                             Since the data is tremendous, we may want to break it down into many periods of time,
                             for example, <i>Apr 2014</i>, <i>May 2014</i>,... <i>Sep 2014</i>. We can animate the map a little
@@ -224,17 +228,23 @@
                                     <option value="other">Other</option>
                                 </select>
                             </p>
-                        </p>
-                    </p>
-                    <p><hr></p>
-                    <p>
-                        <h5>Multiple bar chart of Uber vs. Other rides</h5>
-                        <p>
-                            <img class="img" src="images/design2.jpg" alt="">
+                            <p>
+                                Moreover, when users mouse click or mouse hover over a specific area in the map, we can display
+                                a mini barchart or a pie chart, to visualize more details how data add up in that area, maybe a
+                                little comparison.
+                            </p>
                         </p>
                         <p>
-                            Bar chart is an efficient way to compare numeric, in this case, is the number of rides between Uber
-                            and other FHV companies. We try to focus on how many rides Uber have increased throughout the times.
+                            <hr>
+                        </p>
+                        <p>
+                            <h6>Manhatten pickup locations - Sep 14</h6>
+                            <img src="images/manhattan.png" alt="" class="img">
+                        </p>
+                        <p>
+                            We can narrow down the map location by analyzing in each borough (e.g. Manhattan).
+                            I try to filter out the dots which are not in the polygon of Manhattan, but it will add
+                            more time complexity whih we don't want to, we can consider using CSS to achieve the same thing.
                         </p>
                     </p>
                 </div>
