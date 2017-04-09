@@ -88,16 +88,33 @@ var drawMap = function(mapData, data, htmlID, color, lon, lat) {
 	// return [svg, projection];
 }
 
-var dataViz = function(errors, mapData, fhvBases, zones, uber, lyft) {
+var dataViz = function(errors, mapData, fhvBases, zones, uber) {
 
     if (errors) throw errors;
 
     // lyft = _.orderBy(lyft, ["time_of_trip"], ["asc"]);
     // lyft = _.orderBy(_.filter(lyft, function(d) { return (moment(new Date(d.time_of_trip)).month() === 8 && moment(new Date(d.time_of_trip)).date() === 1); }), ['time_of_trip'], ['asc']);
 
-    var days = [];
+    // var days = [];
 
-    var uber = _.orderBy(_.filter(uber, function(d) { return (moment(new Date(d['Date/Time'])).date() === 1); }), ['Date/Time'], ['asc']);
+    // var uber = _.orderBy(_.filter(uber, function(d) { return (moment(new Date(d['Date/Time'])).date() === 1); }), ['Date/Time'], ['asc']);
+    var uber = _.orderBy(_.filter(uber, function(d) { return (moment(new Date(d['Pickup_date'])).month() === 0); }), ['Pickup_date'], ['asc']);
+
+    // mapData = mapData.features.map(function(d) {
+    //     return d.properties.PO_NAME;
+    // });
+    // console.log(mapData);
+
+    zones = zones.map(function(d) {
+        return d.zone;
+    });
+    console.log(zones);
+
+    // console.log(fhvBases);
+    _.each(uber, o => _.each(o, (v, k) => o[k] = v.trim()));
+    var uberCount = _.map(_.countBy(uber, "locationID"), function(value, key) { return { key: key, value: value }; });
+
+    // console.log(uberCount);
 
     // for (var i = 1; i <= 30; i++) {
     // 	days[i] = _.orderBy(_.filter(uber, function(d) { return (moment(new Date(d['Date/Time'])).date() === i); }), ['Date/Time'], ['asc']);
@@ -128,7 +145,7 @@ var dataViz = function(errors, mapData, fhvBases, zones, uber, lyft) {
 
     // var map = drawMap(mapData, uber, '#nyc-uber', 'red', 'Lon', 'Lat');
 
-    drawMap(mapData, uber, '#nyc-uber', 'red', 'Lon', 'Lat');
+    // drawMap(mapData, uber, '#nyc-uber', 'red', 'Lon', 'Lat');
 
     // for (var i = 1; i <= days.length; i++) {
 
@@ -184,8 +201,8 @@ d3.queue()
 	.defer(d3.json, 'https://raw.githubusercontent.com/se2/cis602-02-project/master/data/nyc.geo.json')
     .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/fhv_bases.csv')
     .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/taxi-zone-lookup-with-ntacode.csv')
-    // .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/uber/uber-jan-june15/1.csv')
-    .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/uber/uber-sep14.csv')
+    .defer(d3.csv,  'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/uber/uber-jan-june15/1.csv')
+    // .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/uber/uber-sep14.csv')
     // .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/fhv/Lyft_B02510.csv')
     .await(dataViz);
 
