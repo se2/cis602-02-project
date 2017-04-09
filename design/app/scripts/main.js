@@ -1,28 +1,15 @@
-// var common = require(['./scripts/modules/common']);
-
-// common.init();
-
-// var uberData = {
-// 	'apr14' : 'https://raw.githubusercontent.com/fivethirtyeight/uber-tlc-foil-response/master/uber-trip-data/uber-raw-data-apr14.csv',
-// 	'may14' : 'https://raw.githubusercontent.com/fivethirtyeight/uber-tlc-foil-response/master/uber-trip-data/uber-raw-data-may14.csv',
-// 	'jun14' : 'https://raw.githubusercontent.com/fivethirtyeight/uber-tlc-foil-response/master/uber-trip-data/uber-raw-data-jun14.csv',
-// 	'jul14' : 'https://raw.githubusercontent.com/fivethirtyeight/uber-tlc-foil-response/master/uber-trip-data/uber-raw-data-jul14.csv',
-// 	'aug14' : 'https://raw.githubusercontent.com/fivethirtyeight/uber-tlc-foil-response/master/uber-trip-data/uber-raw-data-aug14.csv',
-// 	'sep14' : 'https://raw.githubusercontent.com/fivethirtyeight/uber-tlc-foil-response/master/uber-trip-data/uber-raw-data-sep14.csv',
-// };
-
-var drawMap = function(mapData, data, htmlID, color, lon, lat) {
+var drawMap = function(mapData, data, zones, months, htmlID, lon, lat) {
 
     var container = $(htmlID);
+    var totalUberPickups = $("#totalUberPickups");
+    var monthOf2015 = $("#monthOf2015");
+
+    var maxData = _.maxBy(data, function(o) { return o.value; });
 
     // data = _.chunk(data, 25000)[0];
 
-    // console.log(data);
-
-    // data.map(function(d) {
-    // 	var day = moment(d["Date/Time"]).day();
-    // 	console.log(day);
-    // });
+    totalUberPickups.html(_.sumBy(data, "value"));
+    monthOf2015.html(months[5]["value"]);
 
 	/* draw map */
 	var width = container.width(),
@@ -37,7 +24,7 @@ var drawMap = function(mapData, data, htmlID, color, lon, lat) {
     			    .attr('width', width)
     			    .attr('height', height);
 
-	// var color = d3.scaleSequential(d3.interpolateReds);
+	var color = d3.scaleSequential(d3.interpolateReds);
 	// var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 	/* map projection */
@@ -45,7 +32,6 @@ var drawMap = function(mapData, data, htmlID, color, lon, lat) {
 	// var projection = d3.geoAlbers()
 	// var projection = d3.geoNaturalEarth()
 					.scale(scale)
-					// .translate([width / 2, height / 2]);
 					.center(center)
 					.precision(precision)
 					.translate(offset);
@@ -57,11 +43,15 @@ var drawMap = function(mapData, data, htmlID, color, lon, lat) {
 	svg.append('g')
 	    .selectAll('path')
 	    .data(mapData.features)
-	    // .datum(mapData.features)
 	    .enter().append('path')
 		    .attr('fill', function(d) {
-		    	// return color(d.properties.CTY_FIPS);
-		    	return 'white';
+                var colorScale = 0;
+                data.map(function(o) {
+                    if (o.ntacode == d.properties.NTACode) {
+                        colorScale = o.value / maxData.value;
+                    }
+                });
+                return (colorScale == 0) ? "white" : color(colorScale);
 		    })
 		    .attr('d', path)
 		    .attr('stroke', 'grey')
@@ -69,59 +59,75 @@ var drawMap = function(mapData, data, htmlID, color, lon, lat) {
 		    .attr('class', function(d) { return d.id })
 		    .append('title')
 		    	.text(function(d) {
-		        	return d.properties.borough;
+                    var numPickups = 0;
+                    var title = _.split(_.replace(_.replace(d.properties.NTAName, /etc-/, ""), /-/g, "/"), "/");
+                    data.map(function(o) {
+                        if (o.ntacode == d.properties.NTACode) {
+                            numPickups = o.value;
+                        }
+                    });
+                    title = title.map(function(t) {
+                        return _.capitalize(t);
+                    });
+                    return _.join(title, "/") + ": " + numPickups;
 		    	});
 
 	// plotting points
-    svg.selectAll('circle')
-		.data(data)
-		.enter().append('circle')
-		.attr('r', '0.5px')
-		// .attr('cx', function (d) { return projection([d.Lon, d.Lat])[0]; })
-		// .attr('cy', function (d) { return projection([d.Lon, d.Lat])[1]; })
-		.attr('transform', function(d) {
-		            return 'translate(' + projection([d[lon], d[lat]]) + ')'; })
-		.attr('fill', function(d) {
-			return color;
-		});
+  //   svg.selectAll('circle')
+		// .data(data)
+		// .enter().append('circle')
+		// .attr('r', '0.5px')
+		// // .attr('cx', function (d) { return projection([d.Lon, d.Lat])[0]; })
+		// // .attr('cy', function (d) { return projection([d.Lon, d.Lat])[1]; })
+		// .attr('transform', function(d) {
+		//             return 'translate(' + projection([d[lon], d[lat]]) + ')'; })
+		// .attr('fill', function(d) {
+		// 	return color;
+		// });
 
-	// return [svg, projection];
 }
 
-var dataViz = function(errors, mapData, fhvBases, zones, uber) {
+var dataViz = function(errors, mapData, fhvBases, zones, uber, nycMap) {
 
     if (errors) throw errors;
+
+    var months = [
+        { "key": 0, "value": "January 2015" },
+        { "key": 1, "value": "February 2015" },
+        { "key": 2, "value": "March 2015" },
+        { "key": 3, "value": "April 2015" },
+        { "key": 4, "value": "May 2015" },
+        { "key": 5, "value": "June 2015" },
+    ];
 
     // lyft = _.orderBy(lyft, ["time_of_trip"], ["asc"]);
     // lyft = _.orderBy(_.filter(lyft, function(d) { return (moment(new Date(d.time_of_trip)).month() === 8 && moment(new Date(d.time_of_trip)).date() === 1); }), ['time_of_trip'], ['asc']);
 
-    // var days = [];
-
     // var uber = _.orderBy(_.filter(uber, function(d) { return (moment(new Date(d['Date/Time'])).date() === 1); }), ['Date/Time'], ['asc']);
-    var uber = _.orderBy(_.filter(uber, function(d) { return (moment(new Date(d['Pickup_date'])).month() === 0); }), ['Pickup_date'], ['asc']);
+    var uber = _.orderBy(_.filter(uber, function(d) { return (moment(new Date(d['Pickup_date'])).month() === months[5]["key"]); }), ['Pickup_date'], ['asc']);
 
-    // mapData = mapData.features.map(function(d) {
-    //     return d.properties.PO_NAME;
-    // });
-    // console.log(mapData);
-
-    zones = zones.map(function(d) {
-        return d.zone;
+    var nycNTACode = mapData.features.map(function(d) {
+        return d.properties.NTACode;
     });
-    console.log(zones);
 
-    // console.log(fhvBases);
+    var zonesNTACode = zones.map(function(d) {
+        return d.ntacode;
+    });
+
     _.each(uber, o => _.each(o, (v, k) => o[k] = v.trim()));
     var uberCount = _.map(_.countBy(uber, "locationID"), function(value, key) { return { key: key, value: value }; });
+    var maxUberCount = _.maxBy(uberCount, function(o) { return o.value; });
 
-    // console.log(uberCount);
-
-    // for (var i = 1; i <= 30; i++) {
-    // 	days[i] = _.orderBy(_.filter(uber, function(d) { return (moment(new Date(d['Date/Time'])).date() === i); }), ['Date/Time'], ['asc']);
-    // }
-
-    // drawMap(mapData, lyft, '#nyc-lyft', 'red', 'start_lng', 'start_lat');
-    // drawMap(mapData, uber, '#nyc-uber', 'red', 'Lon', 'Lat');
+    uberCount = uberCount.map(function(o) {
+        var ntacode = "";
+        zones.map(function(z) {
+            if (z.location_id == o.key) {
+                ntacode = z.ntacode;
+            }
+        });
+        o["ntacode"] = ntacode;
+        return o;
+    });
 
     // var manhattan = _.filter(mapData.features, function(d) {
     // 	return d.properties.borough === "Manhattan";
@@ -132,76 +138,17 @@ var dataViz = function(errors, mapData, fhvBases, zones, uber) {
     // 	"features": manhattan
     // };
 
-    // uber = _.filter(uber, function(d) {
-    // 	console.log(d3.polygonContains(manhattan.features[1].geometry.coordinates, [d.Lon, d.Lat]));
-    // 	// manhattan.features.map(function(polygon) {
-    // 	// 	return (d3.polygonContains(polygon.geometry, [d.Lon, d.Lat])) ? true : false;
-    // 	// });
-    // });
-
-    // var uberJan15 = _.filter(uber, function(d) {
-    // 	return (moment(new Date(d.Pickup_date)).month() === 0);
-    // });
-
-    // var map = drawMap(mapData, uber, '#nyc-uber', 'red', 'Lon', 'Lat');
-
-    // drawMap(mapData, uber, '#nyc-uber', 'red', 'Lon', 'Lat');
-
-    // for (var i = 1; i <= days.length; i++) {
-
-    // 	var projection = map[1];
-
-    //     map[0].selectAll('circle')
-    // 		.data(days[i])
-    // 		.enter().append('circle')
-    // 		.attr('r', '0.5px')
-    // 		// .attr('cx', function (d) { return projection([d.Lon, d.Lat])[0]; })
-    // 		// .attr('cy', function (d) { return projection([d.Lon, d.Lat])[1]; })
-    // 		.attr('transform', function(d) { return 'translate(' + projection([d.Lon, d.Lat]) + ')'; })
-    // 		.attr('fill', "red");
-
-    // }
+    // drawMap(mapData, lyft, '#nyc-lyft', 'red', 'start_lng', 'start_lat');
+    drawMap(mapData, uberCount, zones, months, '#nyc-uber', 'Lon', 'Lat');
 
 }
 
-// var getData = function() {
-// 	var months = [0, 1, 2, 3, 4, 5];
-
-// 	for (var i = 0; i < months.length; i++) {
-// 		for (var j = 1; j <= 2; j++) {
-// 			months[i] = getMonth("https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/uber/uber-jan-june15/" + j + ".csv", i);
-// 		}
-// 		// var uberJan15;
-// 		// d3.csv("https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/uber/uber-jan-june15/" + i + ".csv", function(data) {
-// 		// 	var tmp = _.filter(data, function(d) {
-// 		// 	    return (moment(new Date(d.Pickup_date)).month() === 1);
-// 		// 	});
-// 		// 	uberJan15 = _.union(uberJan15, tmp);
-
-// 		// 	var args = {
-// 		// 		data: uberJan15,
-// 		// 		filename: 'uberJan15.csv'
-// 		// 	};
-// 		// 	downloadCSV(args);
-// 		// });
-// 	}
-
-// };
-
-// var getMonth = function(url, month) {
-// 	d3.csv(url, function(data) {
-// 		month = _.filter(data, function(d) {
-// 		    return (moment(new Date(d.Pickup_date)).month() === month);
-// 		});
-// 		return month;
-// 	});
-// }
-
 d3.queue()
-	.defer(d3.json, 'https://raw.githubusercontent.com/se2/cis602-02-project/master/data/nyc.geo.json')
-    .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/fhv_bases.csv')
-    .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/taxi-zone-lookup-with-ntacode.csv')
-    .defer(d3.csv,  'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/uber/uber-jan-june15/1.csv')
+    // .defer(d3.json, 'https://raw.githubusercontent.com/se2/cis602-02-project/master/data/nyc.geo.json')
+    .defer(d3.json, 'https://raw.githubusercontent.com/se2/cis602-02-project/master/design/nyc.geo.2.json')
+    .defer(d3.csv,  'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/fhv_bases.csv')
+    .defer(d3.csv,  'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/taxi-zone-lookup-with-ntacode.csv')
+    .defer(d3.csv,  'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/uber/uber-jan-june15/2.csv')
     // .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/uber/uber-sep14.csv')
     // .defer(d3.csv, 	'https://media.githubusercontent.com/media/se2/cis602-02-project/master/data/fhv/Lyft_B02510.csv')
     .await(dataViz);

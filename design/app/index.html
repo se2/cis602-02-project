@@ -20,7 +20,7 @@
 
 <body>
     <div class="container-fluid">
-<!--         <div class="header">
+        <!--         <div class="header">
             <ul class="nav nav-pills float-right">
                 <li class="nav-item">
                     <a class="nav-link" href="#">Home</a>
@@ -29,9 +29,11 @@
             <h3 class="text-muted">DSC 530 Project</h3>
         </div> -->
         <div class="body">
-          <div id="nyc-uber" class="map"></div>
-          <!-- <div id="nyc-lyft" class="map"></div> -->
-          <!-- <div id="uber-line" class="map"></div> -->
+            <h5>Uber Pickups - <span id="monthOf2015"></span></h5>
+            <h6>Total: <span id="totalUberPickups"></span></h6>
+            <div id="nyc-uber" class="map"></div>
+            <!-- <div id="nyc-lyft" class="map"></div> -->
+            <!-- <div id="uber-line" class="map"></div> -->
         </div>
         <!-- <div class="footer"></div> -->
     </div>
@@ -60,6 +62,7 @@
     <!-- endbuild -->
     <!-- <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script> -->
     <!-- <script src="https://d3js.org/d3-polygon.v1.min.js"></script> -->
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
     <!-- <script src="scripts/papaparse.min.js"></script> -->
     <!-- build:js scripts/main.js -->
