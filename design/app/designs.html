@@ -5,9 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>DSC 530 Project</title>
-    <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
-    <!-- Place favicon.ico in the root directory -->
+    <title>DSC 530 Project Design</title>
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <!-- endbower -->
@@ -21,25 +19,16 @@
 </head>
 
 <body>
-    <!--[if IE]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
     <div class="container-fluid">
-        <div class="header">
-            <ul class="nav nav-pills float-right">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
-            </ul>
-            <h3 class="text-muted">DSC 530 Project</h3>
-        </div>
+
         <div class="body">
-          <h1>Design</h1>
-          <div id="nyc"></div>
+            <h5>NYC Uber Pickups from Jan to Jun 2015</h5>
+            <h6>Total: <span id="totalUberPickups"></span></h6>
+            <div id="nyc-uber" class="map"></div>
+            <!-- <div id="nyc-lyft" class="map"></div> -->
+            <!-- <div id="uber-line" class="map"></div> -->
         </div>
-        <div class="footer"></div>
     </div>
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
@@ -48,6 +37,7 @@
     <script src="/bower_components/d3/d3.js"></script>
     <script src="/bower_components/lodash/lodash.js"></script>
     <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/numeral/numeral.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js scripts/plugins.js -->
@@ -63,6 +53,11 @@
     <script src="/bower_components/bootstrap/js/dist/tooltip.js"></script>
     <script src="/bower_components/bootstrap/js/dist/popover.js"></script>
     <!-- endbuild -->
+    <!-- <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script> -->
+    <!-- <script src="https://d3js.org/d3-polygon.v1.min.js"></script> -->
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
+    <!-- <script src="scripts/papaparse.min.js"></script> -->
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
