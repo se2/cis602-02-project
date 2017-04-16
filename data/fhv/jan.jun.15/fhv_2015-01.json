@@ -1,0 +1,571 @@
+[{
+    "key": "MN17",
+    "value": 240227
+}, {
+    "key": "MN13",
+    "value": 182042
+}, {
+    "key": "MN24",
+    "value": 145103
+}, {
+    "key": "MN23",
+    "value": 141777
+}, {
+    "key": "MN40",
+    "value": 74231
+}, {
+    "key": "MN22",
+    "value": 68673
+}, {
+    "key": "QN98",
+    "value": 67621
+}, {
+    "key": "MN25",
+    "value": 62874
+}, {
+    "key": "MN12",
+    "value": 57092
+}, {
+    "key": "MN20",
+    "value": 57033
+}, {
+    "key": "MN15",
+    "value": 55119
+}, {
+    "key": "MN31",
+    "value": 48276
+}, {
+    "key": "BK73",
+    "value": 46318
+}, {
+    "key": "MN14",
+    "value": 44064
+}, {
+    "key": "MN19",
+    "value": 43066
+}, {
+    "key": "BX36",
+    "value": 38775
+}, {
+    "key": "MN32",
+    "value": 35098
+}, {
+    "key": "MN28",
+    "value": 34629
+}, {
+    "key": "MN21",
+    "value": 33744
+}, {
+    "key": "BK37",
+    "value": 27426
+}, {
+    "key": "BK38",
+    "value": 23727
+}, {
+    "key": "MN03",
+    "value": 21965
+}, {
+    "key": "BX09",
+    "value": 18892
+}, {
+    "key": "BK76",
+    "value": 18734
+}, {
+    "key": "BX26",
+    "value": 16929
+}, {
+    "key": "MN27",
+    "value": 16490
+}, {
+    "key": "BX55",
+    "value": 16307
+}, {
+    "key": "BX17",
+    "value": 15250
+}, {
+    "key": "BK90",
+    "value": 15150
+}, {
+    "key": "BK09",
+    "value": 14683
+}, {
+    "key": "MN04",
+    "value": 13971
+}, {
+    "key": "MN35",
+    "value": 13824
+}, {
+    "key": "QN68",
+    "value": 13637
+}, {
+    "key": "BK61",
+    "value": 13568
+}, {
+    "key": "BK78",
+    "value": 13427
+}, {
+    "key": "BK69",
+    "value": 13076
+}, {
+    "key": "MN01",
+    "value": 12256
+}, {
+    "key": "QN70",
+    "value": 11338
+}, {
+    "key": "BK33",
+    "value": 10839
+}, {
+    "key": "BK75",
+    "value": 10697
+}, {
+    "key": "BX35",
+    "value": 10320
+}, {
+    "key": "MN50",
+    "value": 10195
+}, {
+    "key": "BK68",
+    "value": 10062
+}, {
+    "key": "BK77",
+    "value": 9833
+}, {
+    "key": "BX63",
+    "value": 8571
+}, {
+    "key": "MN36",
+    "value": 8201
+}, {
+    "key": "BK64",
+    "value": 7852
+}, {
+    "key": "BK35",
+    "value": 7611
+}, {
+    "key": "BX75",
+    "value": 6964
+}, {
+    "key": "MN09",
+    "value": 6850
+}, {
+    "key": "MN33",
+    "value": 6815
+}, {
+    "key": "QN31",
+    "value": 6752
+}, {
+    "key": "BX41",
+    "value": 6739
+}, {
+    "key": "MN06",
+    "value": 6514
+}, {
+    "key": "MN34",
+    "value": 6440
+}, {
+    "key": "MN99",
+    "value": 6410
+}, {
+    "key": "BX59",
+    "value": 6253
+}, {
+    "key": "BX14",
+    "value": 6017
+}, {
+    "key": "QN72",
+    "value": 5914
+}, {
+    "key": "BX08",
+    "value": 5859
+}, {
+    "key": "BK42",
+    "value": 5098
+}, {
+    "key": "BK60",
+    "value": 4948
+}, {
+    "key": "BX34",
+    "value": 4861
+}, {
+    "key": "QN17",
+    "value": 4565
+}, {
+    "key": "BX52",
+    "value": 4468
+}, {
+    "key": "BX01",
+    "value": 4134
+}, {
+    "key": "BK31",
+    "value": 4091
+}, {
+    "key": "QN28",
+    "value": 3901
+}, {
+    "key": "BK32",
+    "value": 3800
+}, {
+    "key": "BX39",
+    "value": 3505
+}, {
+    "key": "QN71",
+    "value": 3438
+}, {
+    "key": "BX33",
+    "value": 3052
+}, {
+    "key": "BK63",
+    "value": 2940
+}, {
+    "key": "BX37",
+    "value": 2935
+}, {
+    "key": "QN20",
+    "value": 2787
+}, {
+    "key": "BK40",
+    "value": 2785
+}, {
+    "key": "BX46",
+    "value": 2686
+}, {
+    "key": "BX27",
+    "value": 2502
+}, {
+    "key": "BX49",
+    "value": 2442
+}, {
+    "key": "BX06",
+    "value": 2403
+}, {
+    "key": "QN29",
+    "value": 2320
+}, {
+    "key": "QN22",
+    "value": 2211
+}, {
+    "key": "QN63",
+    "value": 2201
+}, {
+    "key": "BX05",
+    "value": 2062
+}, {
+    "key": "BX28",
+    "value": 2040
+}, {
+    "key": "BX29",
+    "value": 2010
+}, {
+    "key": "BX22",
+    "value": 1915
+}, {
+    "key": "BX30",
+    "value": 1871
+}, {
+    "key": "BX40",
+    "value": 1864
+}, {
+    "key": "BK43",
+    "value": 1763
+}, {
+    "key": "BK25",
+    "value": 1760
+}, {
+    "key": "QN61",
+    "value": 1681
+}, {
+    "key": "BK88",
+    "value": 1665
+}, {
+    "key": "BK41",
+    "value": 1569
+}, {
+    "key": "BK58",
+    "value": 1527
+}, {
+    "key": "BX10",
+    "value": 1483
+}, {
+    "key": "QN30",
+    "value": 1449
+}, {
+    "key": "BK50",
+    "value": 1396
+}, {
+    "key": "BK82",
+    "value": 1388
+}, {
+    "key": "BK91",
+    "value": 1370
+}, {
+    "key": "BK96",
+    "value": 1352
+}, {
+    "key": "QN18",
+    "value": 1350
+}, {
+    "key": "BK79",
+    "value": 1330
+}, {
+    "key": "QN38",
+    "value": 1328
+}, {
+    "key": "QN60",
+    "value": 1273
+}, {
+    "key": "BX07",
+    "value": 1243
+}, {
+    "key": "BK17",
+    "value": 1241
+}, {
+    "key": "BX43",
+    "value": 1216
+}, {
+    "key": "BX44",
+    "value": 1200
+}, {
+    "key": "QN35",
+    "value": 1168
+}, {
+    "key": "QN21",
+    "value": 1145
+}, {
+    "key": "BK34",
+    "value": 1141
+}, {
+    "key": "QN46",
+    "value": 1135
+}, {
+    "key": "BK28",
+    "value": 1130
+}, {
+    "key": "SI35",
+    "value": 1106
+}, {
+    "key": "BX13",
+    "value": 1103
+}, {
+    "key": "QN27",
+    "value": 1069
+}, {
+    "key": "QN37",
+    "value": 1047
+}, {
+    "key": "QN54",
+    "value": 1036
+}, {
+    "key": "BK95",
+    "value": 1024
+}, {
+    "key": "BK30",
+    "value": 1016
+}, {
+    "key": "QN55",
+    "value": 1013
+}, {
+    "key": "QN53",
+    "value": 1011
+}, {
+    "key": "BK45",
+    "value": 984
+}, {
+    "key": "BK81",
+    "value": 959
+}, {
+    "key": "QN50",
+    "value": 913
+}, {
+    "key": "QN25",
+    "value": 904
+}, {
+    "key": "BK44",
+    "value": 889
+}, {
+    "key": "QN19",
+    "value": 887
+}, {
+    "key": "BK29",
+    "value": 886
+}, {
+    "key": "BX31",
+    "value": 833
+}, {
+    "key": "BK72",
+    "value": 829
+}, {
+    "key": "BK46",
+    "value": 820
+}, {
+    "key": "QN51",
+    "value": 788
+}, {
+    "key": "BK99",
+    "value": 737
+}, {
+    "key": "BX62",
+    "value": 729
+}, {
+    "key": "QN76",
+    "value": 640
+}, {
+    "key": "QN06",
+    "value": 628
+}, {
+    "key": "QN49",
+    "value": 578
+}, {
+    "key": "QN62",
+    "value": 577
+}, {
+    "key": "BK83",
+    "value": 553
+}, {
+    "key": "BK19",
+    "value": 546
+}, {
+    "key": "BX03",
+    "value": 519
+}, {
+    "key": "QN34",
+    "value": 503
+}, {
+    "key": "QN57",
+    "value": 486
+}, {
+    "key": "QN52",
+    "value": 468
+}, {
+    "key": "QN56",
+    "value": 468
+}, {
+    "key": "QN26",
+    "value": 450
+}, {
+    "key": "QN08",
+    "value": 444
+}, {
+    "key": "BK21",
+    "value": 439
+}, {
+    "key": "QN01",
+    "value": 432
+}, {
+    "key": "QN47",
+    "value": 427
+}, {
+    "key": "BK85",
+    "value": 407
+}, {
+    "key": "QN23",
+    "value": 403
+}, {
+    "key": "QN42",
+    "value": 390
+}, {
+    "key": "BK27",
+    "value": 388
+}, {
+    "key": "QN03",
+    "value": 381
+}, {
+    "key": "BK26",
+    "value": 365
+}, {
+    "key": "QN41",
+    "value": 352
+}, {
+    "key": "SI08",
+    "value": 310
+}, {
+    "key": "QN48",
+    "value": 310
+}, {
+    "key": "QN43",
+    "value": 305
+}, {
+    "key": "QN02",
+    "value": 299
+}, {
+    "key": "QN45",
+    "value": 287
+}, {
+    "key": "QN05",
+    "value": 250
+}, {
+    "key": "QN66",
+    "value": 249
+}, {
+    "key": "BK93",
+    "value": 235
+}, {
+    "key": "QN33",
+    "value": 197
+}, {
+    "key": "SI24",
+    "value": 195
+}, {
+    "key": "QN44",
+    "value": 168
+}, {
+    "key": "QN07",
+    "value": 137
+}, {
+    "key": "SI36",
+    "value": 109
+}, {
+    "key": "SI14",
+    "value": 106
+}, {
+    "key": "SI37",
+    "value": 98
+}, {
+    "key": "QN15",
+    "value": 88
+}, {
+    "key": "SI07",
+    "value": 83
+}, {
+    "key": "SI12",
+    "value": 70
+}, {
+    "key": "QN10",
+    "value": 64
+}, {
+    "key": "SI22",
+    "value": 55
+}, {
+    "key": "QN12",
+    "value": 48
+}, {
+    "key": "NJ01",
+    "value": 44
+}, {
+    "key": "SI25",
+    "value": 36
+}, {
+    "key": "SI45",
+    "value": 33
+}, {
+    "key": "SI54",
+    "value": 24
+}, {
+    "key": "SI28",
+    "value": 21
+}, {
+    "key": "SI32",
+    "value": 20
+}, {
+    "key": "SI11",
+    "value": 18
+}, {
+    "key": "SI01",
+    "value": 10
+}, {
+    "key": "SI48",
+    "value": 8
+}, {
+    "key": "SI99",
+    "value": 4
+}]
