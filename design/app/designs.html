@@ -22,11 +22,21 @@
     <div class="container-fluid">
 
         <div class="body">
-            <h5>NYC Uber Pickups from Jan to Jun 2015</h5>
-            <h6>Total: <span id="totalUberPickups"></span></h6>
-            <div id="nyc-uber" class="map"></div>
-            <!-- <div id="nyc-lyft" class="map"></div> -->
-            <!-- <div id="uber-line" class="map"></div> -->
+            <h5>NYC Manhattan Taxi Pickups from Jan to Jun 2015</h5>
+            <!-- <div class="container-fluid"> -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Uber</h6>
+                        <h6>Total: <span id="totalUberPickups"></span></h6>
+                        <div id="nyc-uber" class="map"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>FHV</h6>
+                        <h6>Total: <span id="totalFHVPickups"></span></h6>
+                        <div id="nyc-fhv" class="map"></div>
+                    </div>
+                </div>
+            <!-- </div> -->
         </div>
     </div>
     <!-- build:js scripts/vendor.js -->
