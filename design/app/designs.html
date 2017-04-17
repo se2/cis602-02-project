@@ -22,21 +22,30 @@
     <div class="container-fluid">
 
         <div class="body">
-            <h5>NYC Manhattan Taxi Pickups from Jan to Jun 2015</h5>
-            <!-- <div class="container-fluid"> -->
+
+            <section class="design" id="design1">
+                <h5>NYC Uber Pickups from Jan to Jun 2015</h5>
+                <h6>Total: <span id="totalNYCUberPickups"></span></h6>
+                <div id="nyc-uber" class="map"></div>
+            </section>
+
+            <hr>
+
+            <section class="design" id="design2">
+                <h5>NYC Manhattan Taxi Pickups from Jan to Jun 2015</h5>
                 <div class="row">
                     <div class="col-md-6">
                         <h6>Uber</h6>
-                        <h6>Total: <span id="totalUberPickups"></span></h6>
-                        <div id="nyc-uber" class="map"></div>
+                        <h6>Total: <span id="totalMNUberPickups"></span></h6>
+                        <div id="manhattan-uber" class="map"></div>
                     </div>
                     <div class="col-md-6">
                         <h6>FHV</h6>
-                        <h6>Total: <span id="totalFHVPickups"></span></h6>
-                        <div id="nyc-fhv" class="map"></div>
+                        <h6>Total: <span id="totalMNFHVPickups"></span></h6>
+                        <div id="manhattan-fhv" class="map"></div>
                     </div>
                 </div>
-            <!-- </div> -->
+            </section>
         </div>
     </div>
     <!-- build:js scripts/vendor.js -->
@@ -67,6 +76,7 @@
     <!-- <script src="https://d3js.org/d3-polygon.v1.min.js"></script> -->
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
+    <script src="scripts/uss.js"></script>
     <!-- <script src="scripts/papaparse.min.js"></script> -->
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
