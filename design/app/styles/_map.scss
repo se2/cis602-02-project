@@ -13,6 +13,20 @@
 	margin-top: -30px;
 }
 
-#nyc-uber {
-	margin-left: -140px;
+rect {
+    fill: #ddd;
+    stroke: #000;
+    stroke-width: .5px;
+}
+
+.bar text {
+    font-size: 9pt;
+    transform: translate(-5px, 5px);
+    text-anchor: end;
+}
+
+.bar rect.highlight {
+    fill: #f00;
+    stroke: #000;
+    stroke-width: .5px;
 }
