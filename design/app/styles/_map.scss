@@ -1,5 +1,6 @@
 .map {
-	width: 100%;
+    max-width: 100%;
+	width: 1400px;
 	height: 96vh;
 }
 
@@ -26,7 +27,22 @@ rect {
 }
 
 .bar rect.highlight {
-    fill: #f00;
+    fill: rgb(209, 32, 32);
     stroke: #000;
     stroke-width: .5px;
+    cursor: pointer;
+    -webkit-transition: fill 250ms linear;
+    -ms-transition: fill 250ms linear;
+    transition: fill 250ms linear;
+}
+
+.map-highlight {
+    opacity: 0.5;
+    -webkit-transition: fill 250ms linear;
+    -ms-transition: fill 250ms linear;
+    transition: fill 250ms linear;
+}
+
+#nyc-map-svg path {
+    cursor: pointer;
 }

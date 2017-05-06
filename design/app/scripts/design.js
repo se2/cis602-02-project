@@ -1,8 +1,7 @@
-var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htmlID, totalLabelID) {
+var drawMap = function(mapData, scale, rightMargin, data, totalData, htmlID, totalLabelID) {
 
     var container = $(htmlID);
     var totalPickups = $(totalLabelID);
-    var totalUberFHV = countValues(_.union(data, fhv), 'value');
 
     var maxData = _.maxBy(data, function(o) { return o.value; });
     var total = getTotalCountInMap(mapData, data);
@@ -18,13 +17,11 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
         precision = 0.1;
 
     var svg = d3.select(htmlID)
-            .append('svg')
-            .attr("id", "nyc-map-svg")
-            .attr('width', width)
-            .attr('height', height);
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
 
-    var color = d3.scaleSequential(d3.interpolateReds).domain([192, 0]);
-    // var color = d3.scaleSequential(d3.interpolateViridis).domain([0, 192]);
+    var color = d3.scaleSequential(d3.interpolateReds);
 
     /* map projection */
     var projection = d3.geoMercator()
@@ -36,27 +33,25 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
     var path = d3.geoPath()
         .projection(projection);
 
-    var regionRanking = function(ntacode) {
-        var regionRanking = data.map(function(x) { return x.key; }).indexOf(ntacode);
-        return regionRanking;
-    }
-
     /* append to svg */
     svg.append('g')
-        .attr("transform",
-            "translate(" + 0 + "," + 0 + ")")
         .selectAll('path')
         .data(mapData.features)
         .enter().append('path')
         .attr('fill', function(d) {
-            return (regionRanking(d.properties.NTACode) == -1) ? 'white' : color(regionRanking(d.properties.NTACode));
+            var colorScale = 0;
+            data.map(function(o) {
+                if (o.key == d.properties.NTACode) {
+                    colorScale = (o.value / maxData.value);
+                }
+            });
+            return (colorScale == 0) ? 'white' : color(colorScale);
         })
         .attr('d', path)
         .attr('stroke', 'grey')
         .attr('stroke-width', 0.5)
-        .attr('id', function(d) {
-            return d.properties.NTACode })
-        .on('click', mapMouseEnter)
+        .attr('class', function(d) {
+            return d.id })
         .append('title')
         .text(function(d) {
             var numPickups = 0;
@@ -69,26 +64,9 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
             title = title.map(function(t) {
                 return _.capitalize(t);
             });
-            var figure = numeral(numPickups).format();
-            if (numPickups == 0)
-                figure = 'No Data';
-            return _.join(title, '/') + ': ' + figure;
+            return _.join(title, '/') + ': ' + numeral(numPickups).format();
         });
 
-    function mapMouseEnter() {
-        var ntacode = d3.select(this).attr("id"),
-            $this = d3.select(this);
-        if ($this.classed("map-highlight")) {
-            $this.classed("map-highlight", false);
-        } else {
-            d3.select("#nyc-map-svg .map-highlight").classed("map-highlight", false);
-            $this.classed("map-highlight", true);
-            // var totalUber = +uber[ntacode].value,
-            //     totalFHV = +fhv[ntacode].value;
-            drawLine('#nyc-uber-bar', uber, months, ntacode);
-            // console.log(numeral(totalUber / (totalUber + totalFHV) * 100).format('0.00'));
-        }
-    }
 }
 
 var drawBar = function(data, htmlID) {
@@ -98,7 +76,6 @@ var drawBar = function(data, htmlID) {
         midX = 200;
 
     var barSvg = d3.select(htmlID).append('svg')
-        .attr("id", "bar-chart")
         .attr('width', bWidth)
         .attr('height', bHeight)
         .style('vertical-align', 'top');
@@ -122,8 +99,7 @@ var drawBar = function(data, htmlID) {
             return x(d.value); })
         .classed('highlight', function(d) {
             return d.name == 'Jan 2015'; })
-        .attr('height', y.bandwidth())
-        .on('mouseover', barMouseEnter);
+        .attr('height', y.bandwidth());
 
     bars.append('text')
         .attr('x', midX - 4)
@@ -133,94 +109,6 @@ var drawBar = function(data, htmlID) {
             return d.name;
         });
 
-    function barMouseEnter() {
-        // TODO: add code here
-        // Update highlighted bar
-        d3.select(".bar .highlight").classed("highlight", false);
-        d3.select(this).classed("highlight", true);
-
-        // Update colormap
-    }
-}
-
-var barW = 350,
-    barH = 300,
-    barMargin = { top: 5, bottom: 85, left: 85, right: 5 },
-    barX = d3.scaleBand().padding(0.1),
-    barY = d3.scaleLinear(),
-    barXAxis = null;
-
-var drawLine = function(divId, data, months, ntacode) {
-
-    d3.select(divId).select(".line-chart").remove();
-
-    var lineData = [];
-    _.each(data, function(d, i) {
-        var tmp = { "key": months[i].value, "value": _.keyBy(countValues(d), "key") }
-        lineData[i] = tmp;
-        lineData[i].value = lineData[i].value[ntacode].value;
-    });
-
-    /* scale x and y */
-    var x = d3.scaleBand().rangeRound([0, barW]).padding(20),
-        y = d3.scaleLinear().range([barH, 0]);
-
-    /* domain lineData for x and y */
-    x.domain(lineData.map(function(d) { return d.key; }));
-    y.domain([
-        d3.min(lineData, function(d) { return d.value; }) / 2,
-        d3.max(lineData, function(d) { return d.value; }) * 1.2
-        ]);
-
-    var xAxis = d3.axisBottom(x);
-
-    var yAxis = d3.axisLeft(y)
-                    .ticks(10);
-
-    var chart = d3.select(divId)
-                    .append("svg")
-                    .attr("class", "line-chart")
-                    .attr("width", barW + barMargin.left + barMargin.right)
-                    .attr("height", barH + barMargin.top + barMargin.bottom)
-                    .append("g")
-                    .attr("transform", "translate(" + barMargin.left + "," + barMargin.top + ")")
-                    .classed("line", true)
-
-    /* draw line chart */
-    var line = d3.line()
-                .x(function(d) { return x(d.key); })
-                .y(function(d) { return y(d.value); });
-
-    var path = chart.append("path")
-                    .datum(lineData)
-                    .attr("fill", "transparent")
-                    .attr("stroke", "#7BA1C2")
-                    .attr("stroke-width", 2)
-                    .attr("d", line);
-
-    /* append x axis, transform it to bottom */
-    chart.append("g")
-            .attr("class", "line xAxis")
-            .attr("transform", "translate(0," + barH + ")")
-            .call(xAxis);
-
-    /* append y axis */
-    chart.append("g")
-            .attr("class", "line yAxis")
-            .call(yAxis);
-
-    /* append axis title */
-    chart.append("g")
-        .attr("transform", "translate(-70," + (barH / 2) + ") rotate(-90)")
-        .append("text")
-        .style("text-anchor", "middle")
-        .text("Total Pickups");
-
-    chart.append("text")
-        .attr("x", barW / 2)
-        .attr("y", barH + 50)
-        .style("text-anchor", "middle")
-        .text(ntacode + " - 2015");
 }
 
 var dataViz = function(errors, mapData, fhvBases, zones,
@@ -232,16 +120,17 @@ var dataViz = function(errors, mapData, fhvBases, zones,
 
     var uber = countValues(_.union(uber1, uber2, uber3, uber4, uber5, uber6), 'value');
     var fhv = countValues(_.union(fhv1, fhv2, fhv3, fhv4, fhv5, fhv6), 'value');
+    var total = countValues(_.union(uber, fhv), 'value');
 
     /* sum by each month */
     var ubers = [uber1, uber2, uber3, uber4, uber5, uber6];
     var months = [
-        { 'key': 0, 'value': 'Jan' },
-        { 'key': 1, 'value': 'Feb' },
-        { 'key': 2, 'value': 'Mar' },
-        { 'key': 3, 'value': 'Apr' },
-        { 'key': 4, 'value': 'May' },
-        { 'key': 5, 'value': 'Jun' },
+        { 'key': 0, 'value': 'Jan 2015' },
+        { 'key': 1, 'value': 'Feb 2015' },
+        { 'key': 2, 'value': 'Mar 2015' },
+        { 'key': 3, 'value': 'Apr 2015' },
+        { 'key': 4, 'value': 'May 2015' },
+        { 'key': 5, 'value': 'Jun 2015' },
     ];
 
     _.each(ubers, function(d, i) {
@@ -252,11 +141,28 @@ var dataViz = function(errors, mapData, fhvBases, zones,
         ubers[i] = sum;
     });
 
+    /*-------- design 1 --------*/
+    drawMap(mapData, 75000, 0, uber, total, '#nyc-uber', '.totalNYCUberPickups');
+    /*-------- /design 1 --------*/
+
     /*-------- design 3 --------*/
-    drawMap(mapData, 75000, 500, uber, [uber1, uber2, uber3, uber4, uber5, uber6], fhv, months, '#nyc-uber-bar', '.totalNYCUberPickups');
-    drawLine('#nyc-uber-bar', [uber1, uber2, uber3, uber4, uber5, uber6], months, "MN17");
-    // drawBar(ubers, '#nyc-uber-bar');
+    drawMap(mapData, 75000, 315, uber, total, '#nyc-uber-bar', '.totalNYCUberPickups');
+    drawBar(ubers, '#nyc-uber-bar');
     /*-------- /design 3 --------*/
+
+    /*-------- design 2 --------*/
+    var manhattan = _.filter(mapData.features, function(d) {
+        return d.properties.BoroName === 'Manhattan';
+    });
+
+    mapData = {
+        'type': 'FeatureCollection',
+        'features': manhattan
+    };
+
+    drawMap(mapData, 150000, 0, uber, total, '#manhattan-uber', '#totalMNUberPickups');
+    drawMap(mapData, 150000, 0, fhv, total, '#manhattan-fhv', '#totalMNFHVPickups');
+    /*-------- /design 2 --------*/
 
 }
 
@@ -338,9 +244,7 @@ var countValues = function(data) {
             key: k,
             value: _.sumBy(v, 'value')
         })).value();
-    output = _.filter(output, function(d) {
-        return (d.key != "" && d.key != "undefined");
-    });
+
     return _.orderBy(output, 'value', 'desc');
 }
 
