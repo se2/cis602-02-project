@@ -78,16 +78,20 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
     function mapMouseEnter() {
         var ntacode = d3.select(this).attr("id"),
             $this = d3.select(this);
-        if ($this.classed("map-highlight")) {
-            $this.classed("map-highlight", false);
-        } else {
             d3.select("#nyc-map-svg .map-highlight").classed("map-highlight", false);
             $this.classed("map-highlight", true);
-            // var totalUber = +uber[ntacode].value,
-            //     totalFHV = +fhv[ntacode].value;
-            drawLine('#nyc-uber-bar', uber, months, ntacode);
-            // console.log(numeral(totalUber / (totalUber + totalFHV) * 100).format('0.00'));
-        }
+
+            if (typeof _.keyBy(data, "key")[ntacode] != 'undefined') {
+                var totalUber = +(_.keyBy(data, "key")[ntacode].value),
+                    totalFHV = +(_.keyBy(fhv, "key")[ntacode].value);
+                drawLine('#nyc-map-info', uber, months, ntacode);
+                drawLegend('#nyc-map-info', [totalUber, totalFHV]);
+                drawPie('#nyc-map-info', [totalUber, totalFHV]);
+            }
+        // if ($this.classed("map-highlight")) {
+        //     $this.classed("map-highlight", false);
+        // } else {
+        // }
     }
 }
 
@@ -150,6 +154,19 @@ var barW = 350,
     barY = d3.scaleLinear(),
     barXAxis = null;
 
+var drawInfo = function(divId) {
+
+    var container = $(divId),
+        width = 500,
+        height = container.height();
+
+    var svg = d3.select(divId)
+        .append('svg')
+        .attr("id", "nyc-map-info")
+        .attr('width', width)
+        .attr('height', height);
+}
+
 var drawLine = function(divId, data, months, ntacode) {
 
     d3.select(divId).select(".line-chart").remove();
@@ -157,70 +174,171 @@ var drawLine = function(divId, data, months, ntacode) {
     var lineData = [];
     _.each(data, function(d, i) {
         var tmp = { "key": months[i].value, "value": _.keyBy(countValues(d), "key") }
-        lineData[i] = tmp;
-        lineData[i].value = lineData[i].value[ntacode].value;
+        if (typeof tmp.value[ntacode] != 'undefined') {
+            lineData[i] = tmp;
+            lineData[i].value = lineData[i].value[ntacode].value;
+        }
     });
+    if (lineData.length > 0) {
+        /* scale x and y */
+        var x = d3.scaleBand().rangeRound([0, barW]).padding(20),
+            y = d3.scaleLinear().range([barH, 0]);
 
-    /* scale x and y */
-    var x = d3.scaleBand().rangeRound([0, barW]).padding(20),
-        y = d3.scaleLinear().range([barH, 0]);
+        /* domain lineData for x and y */
+        x.domain(lineData.map(function(d) { return d.key; }));
+        y.domain([
+            d3.min(lineData, function(d) { return d.value; }) / 2,
+            d3.max(lineData, function(d) { return d.value; }) * 1.2
+            ]);
 
-    /* domain lineData for x and y */
-    x.domain(lineData.map(function(d) { return d.key; }));
-    y.domain([
-        d3.min(lineData, function(d) { return d.value; }) / 2,
-        d3.max(lineData, function(d) { return d.value; }) * 1.2
-        ]);
+        var xAxis = d3.axisBottom(x);
 
-    var xAxis = d3.axisBottom(x);
+        var yAxis = d3.axisLeft(y)
+                        .ticks(10);
 
-    var yAxis = d3.axisLeft(y)
-                    .ticks(10);
+        var chart = d3.select(divId)
+                        .append("svg")
+                        .attr("class", "line-chart")
+                        .attr("width", barW + barMargin.left + barMargin.right)
+                        .attr("height", barH + barMargin.top + barMargin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + barMargin.left + "," + barMargin.top + ")")
+                        .classed("line", true)
 
-    var chart = d3.select(divId)
-                    .append("svg")
-                    .attr("class", "line-chart")
-                    .attr("width", barW + barMargin.left + barMargin.right)
-                    .attr("height", barH + barMargin.top + barMargin.bottom)
-                    .append("g")
-                    .attr("transform", "translate(" + barMargin.left + "," + barMargin.top + ")")
-                    .classed("line", true)
+        /* draw line chart */
+        var line = d3.line()
+                    .x(function(d) { return x(d.key); })
+                    .y(function(d) { return y(d.value); });
 
-    /* draw line chart */
-    var line = d3.line()
-                .x(function(d) { return x(d.key); })
-                .y(function(d) { return y(d.value); });
+        var path = chart.append("path")
+                        .datum(lineData)
+                        .attr("fill", "transparent")
+                        .attr("stroke", "#7BA1C2")
+                        .attr("stroke-width", 2)
+                        .attr("d", line);
 
-    var path = chart.append("path")
-                    .datum(lineData)
-                    .attr("fill", "transparent")
-                    .attr("stroke", "#7BA1C2")
-                    .attr("stroke-width", 2)
-                    .attr("d", line);
+        /* append x axis, transform it to bottom */
+        chart.append("g")
+                .attr("class", "line xAxis")
+                .attr("transform", "translate(0," + barH + ")")
+                .call(xAxis);
 
-    /* append x axis, transform it to bottom */
-    chart.append("g")
-            .attr("class", "line xAxis")
-            .attr("transform", "translate(0," + barH + ")")
-            .call(xAxis);
+        /* append y axis */
+        chart.append("g")
+                .attr("class", "line yAxis")
+                .call(yAxis);
 
-    /* append y axis */
-    chart.append("g")
-            .attr("class", "line yAxis")
-            .call(yAxis);
+        /* append axis title */
+        chart.append("g")
+            .attr("transform", "translate(-70," + (barH / 2) + ") rotate(-90)")
+            .append("text")
+            .style("text-anchor", "middle")
+            .text("Total Pickups");
 
-    /* append axis title */
-    chart.append("g")
-        .attr("transform", "translate(-70," + (barH / 2) + ") rotate(-90)")
-        .append("text")
+        chart.append("text")
+            .attr("x", barW / 2)
+            .attr("y", barH + 50)
+            .style("text-anchor", "middle")
+            .text(ntacode);
+    }
+}
+
+var drawPie = function(divId, data) {
+
+    d3.select(divId + " .pie").remove();
+
+    var data = [
+        { name: 'Uber', count: data[0], percentage: numeral((data[0] / _.sum(data)) * 100).format('0.00'), color: '#222233' },
+        { name: 'FHV', count: data[1], percentage: numeral((data[1] / _.sum(data)) * 100).format('0.00'), color: '#f7b731' },
+    ];
+
+    var width = 350,
+        height = 300,
+        radius = 125;
+
+    var arc = d3.arc()
+        .outerRadius(radius - 10)
+        .innerRadius(0);
+
+    var pie = d3.pie()
+        .sort(null)
+        .value(function(d) {
+            return d.count;
+        });
+
+    var svg = d3.select(divId)
+        .append("g")
+        .attr("class", "pie")
+        .attr("transform", "translate(" + width / 1.5 + "," + height * 2 + ")");
+
+    var g = svg.selectAll(".arc")
+        .data(pie(data))
+        .enter().append("g");
+
+    g.append("path")
+        .attr("d", arc)
+        .style("fill", function(d, i) {
+            return d.data.color;
+        });
+
+    g.append("text")
+        .attr("transform", function(d) {
+            var _d = arc.centroid(d);
+            _d[0] *= 2.6; //multiply by a constant factor
+            _d[1] *= 2.6; //multiply by a constant factor
+            return "translate(" + _d + ")";
+        })
+        .attr("dy", ".50em")
         .style("text-anchor", "middle")
-        .text("Total Pickups");
+        .text(function(d) {
+            if (d.data.percentage < 8) {
+                return '';
+            }
+            return d.data.percentage + '%';
+        });
 
-    chart.append("text")
-        .attr("x", barW / 2)
-        .attr("y", barH + 50)
-        .style("text-anchor", "middle")
-        .text(ntacode + " - 2015");
+    drawLegend(divId, data);
+}
+
+var drawLegend = function(divId, data) {
+
+    d3.select(divId).select(".legend").remove();
+
+    /* legend */
+    var data = [
+        { name: 'Uber', count: data[0], percentage: numeral((data[0] / _.sum(data)) * 100).format('0.00'), color: '#222233' },
+        { name: 'FHV', count: data[1], percentage: numeral((data[1] / _.sum(data)) * 100).format('0.00'), color: '#f7b731' },
+    ];
+    var radius = 9,
+        noteFontSize = 12;
+
+    var width = 350,
+        height = 300;
+
+    var legend = d3.select(divId)
+                        .append("g")
+                        .attr("class", "legend")
+                        .attr("transform", "translate(" + 100 + ", " + height * 1.5 + ")")
+                        .selectAll("g")
+                        .data(data)
+                        .enter().append("g")
+                            .attr("class", function(d) { return d.name; })
+                            .attr("transform", function(d, i) { return "translate(0," + (i * (radius + 1) * 2) + ")"; });
+
+    /* append country names */
+    legend.append("text")
+            .attr("font-size", noteFontSize)
+            .attr("text-anchor", "end")
+            .attr("x", width - (radius * 1.5))
+            .attr("y", radius / 2)
+            .text(function(d) { return d.name; });
+
+    /* append color circles */
+    legend.append("circle")
+            .attr("cx", width)
+            .attr("cy", 0)
+            .attr("r", radius)
+            .attr("fill", function(d) { return d.color; });
 }
 
 var dataViz = function(errors, mapData, fhvBases, zones,
@@ -254,7 +372,8 @@ var dataViz = function(errors, mapData, fhvBases, zones,
 
     /*-------- design 3 --------*/
     drawMap(mapData, 75000, 500, uber, [uber1, uber2, uber3, uber4, uber5, uber6], fhv, months, '#nyc-uber-bar', '.totalNYCUberPickups');
-    drawLine('#nyc-uber-bar', [uber1, uber2, uber3, uber4, uber5, uber6], months, "MN17");
+    drawInfo('#nyc-uber-bar');
+    // drawLine('#nyc-uber-bar', [uber1, uber2, uber3, uber4, uber5, uber6], months, "MN17");
     // drawBar(ubers, '#nyc-uber-bar');
     /*-------- /design 3 --------*/
 
