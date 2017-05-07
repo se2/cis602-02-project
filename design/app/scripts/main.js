@@ -24,7 +24,6 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
             .attr('height', height);
 
     var color = d3.scaleSequential(d3.interpolateReds).domain([192, 0]);
-    // var color = d3.scaleSequential(d3.interpolateViridis).domain([0, 192]);
 
     /* map projection */
     var projection = d3.geoMercator()
@@ -77,73 +76,24 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
 
     function mapMouseEnter() {
         var ntacode = d3.select(this).attr("id"),
-            $this = d3.select(this);
-            d3.select("#nyc-map-svg .map-highlight").classed("map-highlight", false);
-            $this.classed("map-highlight", true);
+            $this = d3.select(this),
+            divId = "#nyc-map-info";
 
-            if (typeof _.keyBy(data, "key")[ntacode] != 'undefined') {
-                var totalUber = +(_.keyBy(data, "key")[ntacode].value),
-                    totalFHV = +(_.keyBy(fhv, "key")[ntacode].value);
-                drawLine('#nyc-map-info', uber, months, ntacode);
-                drawLegend('#nyc-map-info', [totalUber, totalFHV]);
-                drawPie('#nyc-map-info', [totalUber, totalFHV]);
-            }
-        // if ($this.classed("map-highlight")) {
-        //     $this.classed("map-highlight", false);
-        // } else {
-        // }
-    }
-}
+        d3.select("#nyc-map-svg .map-highlight").classed("map-highlight", false);
+        $this.classed("map-highlight", true);
 
-var drawBar = function(data, htmlID) {
+        d3.select(divId).select(".line-chart").remove();
+        d3.select(divId).select(".legend").remove();
+        d3.select(divId).select(".pie").remove();
 
-    var bWidth = 315,
-        bHeight = 150,
-        midX = 200;
+        if (typeof _.keyBy(data, "key")[ntacode] != 'undefined') {
+            var totalUber = +(_.keyBy(data, "key")[ntacode].value),
+                totalFHV = +(_.keyBy(fhv, "key")[ntacode].value);
 
-    var barSvg = d3.select(htmlID).append('svg')
-        .attr("id", "bar-chart")
-        .attr('width', bWidth)
-        .attr('height', bHeight)
-        .style('vertical-align', 'top');
-
-    var y = d3.scaleBand().padding(0.1).range([0, bHeight]).domain(data.map(function(d) {
-        return d.name; }));
-    var x = d3.scaleLinear().range([0, bWidth - midX]).domain([0, d3.max(data, function(d) {
-        return d.value; })]);
-
-    var bars = barSvg.selectAll('.bar').data(data)
-        .enter().append('g')
-        .attr('transform',
-            function(d) {
-                return 'translate(-100,' + y(d.name) + ')'; })
-        .attr('class', 'bar');
-
-    bars.append('rect')
-        .attr('x', midX)
-        .attr('y', 0)
-        .attr('width', function(d) {
-            return x(d.value); })
-        .classed('highlight', function(d) {
-            return d.name == 'Jan 2015'; })
-        .attr('height', y.bandwidth())
-        .on('mouseover', barMouseEnter);
-
-    bars.append('text')
-        .attr('x', midX - 4)
-        .attr('y', 12)
-        .style('text-anchor', 'end')
-        .text(function(d) {
-            return d.name;
-        });
-
-    function barMouseEnter() {
-        // TODO: add code here
-        // Update highlighted bar
-        d3.select(".bar .highlight").classed("highlight", false);
-        d3.select(this).classed("highlight", true);
-
-        // Update colormap
+            drawLine(divId, uber, months, ntacode);
+            drawLegend(divId, [totalUber, totalFHV]);
+            drawPie(divId, [totalUber, totalFHV]);
+        }
     }
 }
 
@@ -168,8 +118,6 @@ var drawInfo = function(divId) {
 }
 
 var drawLine = function(divId, data, months, ntacode) {
-
-    d3.select(divId).select(".line-chart").remove();
 
     var lineData = [];
     _.each(data, function(d, i) {
@@ -245,8 +193,6 @@ var drawLine = function(divId, data, months, ntacode) {
 
 var drawPie = function(divId, data) {
 
-    d3.select(divId + " .pie").remove();
-
     var data = [
         { name: 'Uber', count: data[0], percentage: numeral((data[0] / _.sum(data)) * 100).format('0.00'), color: '#222233' },
         { name: 'FHV', count: data[1], percentage: numeral((data[1] / _.sum(data)) * 100).format('0.00'), color: '#f7b731' },
@@ -284,25 +230,18 @@ var drawPie = function(divId, data) {
     g.append("text")
         .attr("transform", function(d) {
             var _d = arc.centroid(d);
-            _d[0] *= 2.6; //multiply by a constant factor
-            _d[1] *= 2.6; //multiply by a constant factor
+            _d[0] *= 2.6;
+            _d[1] *= 2.6;
             return "translate(" + _d + ")";
         })
         .attr("dy", ".50em")
         .style("text-anchor", "middle")
         .text(function(d) {
-            if (d.data.percentage < 8) {
-                return '';
-            }
             return d.data.percentage + '%';
         });
-
-    drawLegend(divId, data);
 }
 
 var drawLegend = function(divId, data) {
-
-    d3.select(divId).select(".legend").remove();
 
     /* legend */
     var data = [
@@ -370,12 +309,8 @@ var dataViz = function(errors, mapData, fhvBases, zones,
         ubers[i] = sum;
     });
 
-    /*-------- design 3 --------*/
     drawMap(mapData, 75000, 500, uber, [uber1, uber2, uber3, uber4, uber5, uber6], fhv, months, '#nyc-uber-bar', '.totalNYCUberPickups');
     drawInfo('#nyc-uber-bar');
-    // drawLine('#nyc-uber-bar', [uber1, uber2, uber3, uber4, uber5, uber6], months, "MN17");
-    // drawBar(ubers, '#nyc-uber-bar');
-    /*-------- /design 3 --------*/
 
 }
 
