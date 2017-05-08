@@ -98,17 +98,17 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
 
     // update ranking table
     var top5 = _.slice(data, 0, 5).map(function(d) {
-        return { "NTACode": d.key, "#Pickups": d.value }
+        return { 'NTACode': d.key, '#Pickups': d.value }
     });
 
-    tabulate("#nyc-uber", top5, ["NTACode", "#Pickups"]);
+    tabulate('#nyc-uber', top5, ['NTACode', '#Pickups']);
 
     function tabulate(divId, data, columns) {
 
         var table = d3.select(divId)
                     .append('table')
-                    .attr("id", "nyc-uber-table")
-                    .attr("class", "table table-striped");
+                    .attr('id', 'nyc-uber-table')
+                    .attr('class', 'table table-striped');
         var thead = table.append('thead');
         var tbody = table.append('tbody');
 
