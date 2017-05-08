@@ -43,6 +43,23 @@ rect {
     transition: fill 250ms linear;
 }
 
+.table {
+    td {
+        padding: 0.5rem;
+    }
+}
+
 #nyc-map-svg path {
     cursor: pointer;
 }
+
+#nyc-uber {
+    position: relative;
+}
+
+#nyc-uber-table {
+    position: absolute;
+    top: 50px;
+    z-index: -1;
+}
+

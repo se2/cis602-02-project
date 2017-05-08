@@ -95,6 +95,56 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
             drawPie(divId, [totalUber, totalFHV]);
         }
     }
+
+    // update ranking table
+    var top5 = _.slice(data, 0, 5).map(function(d) {
+        return { "NTACode": d.key, "#Pickups": d.value }
+    });
+
+    tabulate("#nyc-uber", top5, ["NTACode", "#Pickups"]);
+
+    function tabulate(divId, data, columns) {
+
+        var table = d3.select(divId)
+                    .append('table')
+                    .attr("id", "nyc-uber-table")
+                    .attr("class", "table table-striped");
+        var thead = table.append('thead');
+        var tbody = table.append('tbody');
+
+        // append the header row
+        thead.append('tr')
+            .selectAll('th')
+            .data(columns).enter()
+            .append('th')
+            .text(function(column) {
+                return column;
+            });
+
+        // create a row for each object in the data
+        var rows = tbody.selectAll('tr')
+            .data(data)
+            .enter()
+            .append('tr');
+
+        // create a cell in each row for each column
+        var cells = rows.selectAll('td')
+            .data(function(row) {
+                return columns.map(function(column) {
+                    return { column: column, value: row[column] };
+                });
+            })
+            .enter()
+            .append('td')
+            .text(function(d) {
+                if (typeof d.value == 'number')
+                    return numeral(d.value).format();
+                else
+                    return d.value;
+            });
+
+        return table;
+    }
 }
 
 var barW = 350,
@@ -309,8 +359,8 @@ var dataViz = function(errors, mapData, fhvBases, zones,
         ubers[i] = sum;
     });
 
-    drawMap(mapData, 75000, 500, uber, [uber1, uber2, uber3, uber4, uber5, uber6], fhv, months, '#nyc-uber-bar', '.totalNYCUberPickups');
-    drawInfo('#nyc-uber-bar');
+    drawMap(mapData, 75000, 500, uber, [uber1, uber2, uber3, uber4, uber5, uber6], fhv, months, '#nyc-uber', '.totalNYCUberPickups');
+    drawInfo('#nyc-uber');
 
 }
 
