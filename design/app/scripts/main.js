@@ -19,7 +19,7 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
 
     var svg = d3.select(htmlID)
             .append('svg')
-            .attr("id", "nyc-map-svg")
+            .attr('id', 'nyc-map-svg')
             .attr('width', width)
             .attr('height', height);
 
@@ -42,8 +42,8 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
 
     /* append to svg */
     svg.append('g')
-        .attr("transform",
-            "translate(" + 0 + "," + 0 + ")")
+        .attr('transform',
+            'translate(' + 0 + ',' + 0 + ')')
         .selectAll('path')
         .data(mapData.features)
         .enter().append('path')
@@ -75,20 +75,20 @@ var drawMap = function(mapData, scale, rightMargin, data, uber, fhv, months, htm
         });
 
     function mapMouseEnter() {
-        var ntacode = d3.select(this).attr("id"),
+        var ntacode = d3.select(this).attr('id'),
             $this = d3.select(this),
-            divId = "#nyc-map-info";
+            divId = '#nyc-map-info';
 
-        d3.select("#nyc-map-svg .map-highlight").classed("map-highlight", false);
-        $this.classed("map-highlight", true);
+        d3.select('#nyc-map-svg .map-highlight').classed('map-highlight', false);
+        $this.classed('map-highlight', true);
 
-        d3.select(divId).select(".line-chart").remove();
-        d3.select(divId).select(".legend").remove();
-        d3.select(divId).select(".pie").remove();
+        d3.select(divId).select('.line-chart').remove();
+        d3.select(divId).select('.legend').remove();
+        d3.select(divId).select('.pie').remove();
 
-        if (typeof _.keyBy(data, "key")[ntacode] != 'undefined') {
-            var totalUber = +(_.keyBy(data, "key")[ntacode].value),
-                totalFHV = +(_.keyBy(fhv, "key")[ntacode].value);
+        if (typeof _.keyBy(data, 'key')[ntacode] != 'undefined') {
+            var totalUber = +(_.keyBy(data, 'key')[ntacode].value),
+                totalFHV = +(_.keyBy(fhv, 'key')[ntacode].value);
 
             drawLine(divId, uber, months, ntacode);
             drawLegend(divId, [totalUber, totalFHV]);
@@ -112,7 +112,7 @@ var drawInfo = function(divId) {
 
     var svg = d3.select(divId)
         .append('svg')
-        .attr("id", "nyc-map-info")
+        .attr('id', 'nyc-map-info')
         .attr('width', width)
         .attr('height', height);
 }
@@ -121,7 +121,7 @@ var drawLine = function(divId, data, months, ntacode) {
 
     var lineData = [];
     _.each(data, function(d, i) {
-        var tmp = { "key": months[i].value, "value": _.keyBy(countValues(d), "key") }
+        var tmp = { 'key': months[i].value, 'value': _.keyBy(countValues(d), 'key') }
         if (typeof tmp.value[ntacode] != 'undefined') {
             lineData[i] = tmp;
             lineData[i].value = lineData[i].value[ntacode].value;
@@ -145,48 +145,48 @@ var drawLine = function(divId, data, months, ntacode) {
                         .ticks(10);
 
         var chart = d3.select(divId)
-                        .append("svg")
-                        .attr("class", "line-chart")
-                        .attr("width", barW + barMargin.left + barMargin.right)
-                        .attr("height", barH + barMargin.top + barMargin.bottom)
-                        .append("g")
-                        .attr("transform", "translate(" + barMargin.left + "," + barMargin.top + ")")
-                        .classed("line", true)
+                        .append('svg')
+                        .attr('class', 'line-chart')
+                        .attr('width', barW + barMargin.left + barMargin.right)
+                        .attr('height', barH + barMargin.top + barMargin.bottom)
+                        .append('g')
+                        .attr('transform', 'translate(' + barMargin.left + ',' + barMargin.top + ')')
+                        .classed('line', true)
 
         /* draw line chart */
         var line = d3.line()
                     .x(function(d) { return x(d.key); })
                     .y(function(d) { return y(d.value); });
 
-        var path = chart.append("path")
+        var path = chart.append('path')
                         .datum(lineData)
-                        .attr("fill", "transparent")
-                        .attr("stroke", "#7BA1C2")
-                        .attr("stroke-width", 2)
-                        .attr("d", line);
+                        .attr('fill', 'transparent')
+                        .attr('stroke', '#7BA1C2')
+                        .attr('stroke-width', 2)
+                        .attr('d', line);
 
         /* append x axis, transform it to bottom */
-        chart.append("g")
-                .attr("class", "line xAxis")
-                .attr("transform", "translate(0," + barH + ")")
+        chart.append('g')
+                .attr('class', 'line xAxis')
+                .attr('transform', 'translate(0,' + barH + ')')
                 .call(xAxis);
 
         /* append y axis */
-        chart.append("g")
-                .attr("class", "line yAxis")
+        chart.append('g')
+                .attr('class', 'line yAxis')
                 .call(yAxis);
 
         /* append axis title */
-        chart.append("g")
-            .attr("transform", "translate(-70," + (barH / 2) + ") rotate(-90)")
-            .append("text")
-            .style("text-anchor", "middle")
-            .text("Total Pickups");
+        chart.append('g')
+            .attr('transform', 'translate(-70,' + (barH / 2) + ') rotate(-90)')
+            .append('text')
+            .style('text-anchor', 'middle')
+            .text('Total Pickups');
 
-        chart.append("text")
-            .attr("x", barW / 2)
-            .attr("y", barH + 50)
-            .style("text-anchor", "middle")
+        chart.append('text')
+            .attr('x', barW / 2)
+            .attr('y', barH + 50)
+            .style('text-anchor', 'middle')
             .text(ntacode);
     }
 }
@@ -213,29 +213,29 @@ var drawPie = function(divId, data) {
         });
 
     var svg = d3.select(divId)
-        .append("g")
-        .attr("class", "pie")
-        .attr("transform", "translate(" + width / 1.5 + "," + height * 2 + ")");
+        .append('g')
+        .attr('class', 'pie')
+        .attr('transform', 'translate(' + width / 1.5 + ',' + height * 2 + ')');
 
-    var g = svg.selectAll(".arc")
+    var g = svg.selectAll('.arc')
         .data(pie(data))
-        .enter().append("g");
+        .enter().append('g');
 
-    g.append("path")
-        .attr("d", arc)
-        .style("fill", function(d, i) {
+    g.append('path')
+        .attr('d', arc)
+        .style('fill', function(d, i) {
             return d.data.color;
         });
 
-    g.append("text")
-        .attr("transform", function(d) {
+    g.append('text')
+        .attr('transform', function(d) {
             var _d = arc.centroid(d);
             _d[0] *= 2.6;
             _d[1] *= 2.6;
-            return "translate(" + _d + ")";
+            return 'translate(' + _d + ')';
         })
-        .attr("dy", ".50em")
-        .style("text-anchor", "middle")
+        .attr('dy', '.50em')
+        .style('text-anchor', 'middle')
         .text(function(d) {
             return d.data.percentage + '%';
         });
@@ -255,29 +255,29 @@ var drawLegend = function(divId, data) {
         height = 300;
 
     var legend = d3.select(divId)
-                        .append("g")
-                        .attr("class", "legend")
-                        .attr("transform", "translate(" + 100 + ", " + height * 1.5 + ")")
-                        .selectAll("g")
+                        .append('g')
+                        .attr('class', 'legend')
+                        .attr('transform', 'translate(' + 100 + ', ' + height * 1.5 + ')')
+                        .selectAll('g')
                         .data(data)
-                        .enter().append("g")
-                            .attr("class", function(d) { return d.name; })
-                            .attr("transform", function(d, i) { return "translate(0," + (i * (radius + 1) * 2) + ")"; });
+                        .enter().append('g')
+                            .attr('class', function(d) { return d.name; })
+                            .attr('transform', function(d, i) { return 'translate(0,' + (i * (radius + 1) * 2) + ')'; });
 
     /* append country names */
-    legend.append("text")
-            .attr("font-size", noteFontSize)
-            .attr("text-anchor", "end")
-            .attr("x", width - (radius * 1.5))
-            .attr("y", radius / 2)
+    legend.append('text')
+            .attr('font-size', noteFontSize)
+            .attr('text-anchor', 'end')
+            .attr('x', width - (radius * 1.5))
+            .attr('y', radius / 2)
             .text(function(d) { return d.name; });
 
     /* append color circles */
-    legend.append("circle")
-            .attr("cx", width)
-            .attr("cy", 0)
-            .attr("r", radius)
-            .attr("fill", function(d) { return d.color; });
+    legend.append('circle')
+            .attr('cx', width)
+            .attr('cy', 0)
+            .attr('r', radius)
+            .attr('fill', function(d) { return d.color; });
 }
 
 var dataViz = function(errors, mapData, fhvBases, zones,
@@ -393,7 +393,7 @@ var countValues = function(data) {
             value: _.sumBy(v, 'value')
         })).value();
     output = _.filter(output, function(d) {
-        return (d.key != "" && d.key != "undefined");
+        return (d.key != '' && d.key != 'undefined');
     });
     return _.orderBy(output, 'value', 'desc');
 }
